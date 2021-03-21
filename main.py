@@ -1,5 +1,9 @@
 from __future__ import division
+import os
+os.environ['KERAS_BACKEND'] = 'theano'
 from keras.optimizers import SGD
+from keras import backend as K
+K.common.set_image_dim_ordering('th')
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 import os, cv2, sys
 import numpy as np
@@ -54,8 +58,9 @@ if __name__ == '__main__':
 
     elif phase == "test":
         # path of output folder
-        output_folder = ''
-
+        output_folder = 'outputs/'
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
         if len(sys.argv) < 2:
             raise SyntaxError
         imgs_test_path = sys.argv[2]
